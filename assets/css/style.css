@@ -625,6 +625,8 @@
         justify-content: center;
         align-items: center;
         column-gap: .75rem;
+        flex-wrap: wrap;
+        row-gap: .75rem;
         margin-bottom: 2rem;
     }
 
@@ -1621,6 +1623,7 @@
 
         .work__filters {
             column-gap: .25rem;
+            row-gap: .25rem;
         }
 
         .services__container {
