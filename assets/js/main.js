@@ -10,16 +10,16 @@ if(navToggle) {
     })
 }
 
-/* validate if constants exists */
+/* sidebar hiden */
 if(navClose) {
     navClose.addEventListener('click', () => {
         navMenu.classList.remove('show-sidebar')
     })
 }
 
-/* sidebar hiden */
-
-/* validate if constants exists */
+/* CERRAR SIDEBAR AL CLICKEAR UNA OPCIÓN DEL MENÚ */
+const navLink = document.querySelectorAll('.nav__menu a');
+navLink.forEach(link => link.addEventListener('click', () => navMenu.classList.remove('show-sidebar')));
 
 /* skills tabs */
 const tabs = document.querySelectorAll('[data-target]'), tabContent = document.querySelectorAll('[data-content]') 
@@ -77,11 +77,6 @@ function togglePortfolioPopup() {
 
 document.querySelector(".portfolio__popup-close").addEventListener("click", togglePortfolioPopup)
 
-function portfolioItemDetails(portfolioItem) {
-    document.querySelector(".pp__thumbnail img").src = portfolioItem.querySelector(".work__img").src;
-    document.querySelector(".portfolio__popup-subtitle span").innerHTML = portfolioItem.querySelector(".work__title").innerHTML;
-    document.querySelector(".portfolio__popup-body").innerHTML = portfolioItem.querySelector(".portfolio__item-details").innerHTML; 
-}
 /* services modal */
 const modalViews = document.querySelectorAll('.services__modal'),
         modalBtns = document.querySelectorAll('.services__button'),
@@ -97,13 +92,13 @@ modalBtns.forEach((modalBtn, i) => {
     }) 
 })
 
-modalCloses.forEach((modalClose) => {
-    modalClose.addEventListener('click', () => {
-        modalViews.forEach((modalView) => {
-            modalView.classList.remove('active-modal')
-        })
-    })
-})
+function closeAllServicesModals() {
+    modalViews.forEach((modalView) => {
+        modalView.classList.remove('active-modal');
+    });
+}
+
+modalCloses.forEach((modalClose) => modalClose.addEventListener('click', closeAllServicesModals));
 
 /* swiper testimonal */
 let swiper = new Swiper(".testimonials__container", {
@@ -150,7 +145,6 @@ inputs.forEach((input) => {
     input.addEventListener("blur", blurFunc); 
 })
 
-/*  */
 function portfolioItemDetails(portfolioItem) {
     const img = document.querySelector(".portfolio__popup-img");
     const video = document.querySelector(".portfolio__popup-video");
@@ -178,8 +172,6 @@ function portfolioItemDetails(portfolioItem) {
     document.querySelector(".portfolio__popup-body").innerHTML = details.innerHTML;
 }
 
-/*  */
-/*  */
 /* scroll sections active link */
 const sections = document.querySelectorAll('section[id]');
 
@@ -239,3 +231,29 @@ document.querySelectorAll(".about__box, .timeline__item, .skills__header, .skill
     el.style.transition = "opacity 0.6s ease, transform 0.6s ease"
     observer.observe(el)
 })
+
+// Cerrar popup/modal con la tecla "Esc"
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        // Cerrar popup de portafolio
+        if (document.querySelector(".portfolio__popup").classList.contains("open")) {
+            togglePortfolioPopup();
+        }
+
+        // Cerrar modales de servicios
+        closeAllServicesModals();
+    }
+});
+
+// Cerrar popup/modal al hacer clic fuera
+document.addEventListener('click', (e) => {
+    // Cerrar popup de portafolio
+    if (e.target.classList.contains('portfolio__popup')) {
+        togglePortfolioPopup();
+    }
+
+    // Cerrar modales de servicios
+    if (e.target.classList.contains('services__modal')) {
+        closeAllServicesModals();
+    }
+});
